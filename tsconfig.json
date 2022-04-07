@@ -3,21 +3,21 @@
     "outDir": "dist",
     "module": "esnext",
     "moduleResolution": "node",
-    "lib": ["es2021", "dom", "esnext"],
-    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "jsx": "preserve",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "declaration": true,
-    "esModuleInterop": true,
+    "target": "ES2022",
+    "skipLibCheck": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2022",
-    "typeRoots": ["./src/"]
+    "typeRoots": ["./src/"],
+    "lib": ["es2020", "dom", "esnext"]
   },
-  "include": ["src/**/*"],
+  "include": ["./src/Bifrost.ts", "./src/useBifrost.tsx", "./src/index.tsx"],
   "exclude": ["node_modules", "dist", "example"]
 }

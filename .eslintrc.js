@@ -1,97 +1,97 @@
 module.exports = {
   env: {
     browser: true,
-    es6: true,
+    es6: true
   },
   extends: [
-    "plugin:prettier/recommended",
-    "plugin:import/warnings",
-    "plugin:import/typescript",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "prettier/@typescript-eslint",
-    "eslint:recommended",
-    "plugin:react/recommended",
+    'plugin:prettier/recommended',
+    'plugin:import/warnings',
+    'plugin:import/typescript',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'prettier/@typescript-eslint',
+    'eslint:recommended',
+    'plugin:react/recommended'
   ],
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: "tsconfig.json",
-    sourceType: "module",
+    project: 'tsconfig.json',
+    sourceType: 'module'
   },
-  plugins: ["@typescript-eslint", "prefer-arrow", "import"],
+  plugins: ['@typescript-eslint', 'prefer-arrow', 'import'],
   rules: {
-    "prettier/prettier": ["warn"],
-    "@typescript-eslint/camelcase": ["off"],
-    "@typescript-eslint/no-explicit-any": ["off"],
-    "@typescript-eslint/no-unsafe-assignment": "[off"],
-    "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["warn"],
-    "prefer-arrow/prefer-arrow-functions": [
-      "warn",
+    'prettier/prettier': ['warn'],
+    '@typescript-eslint/camelcase': ['off'],
+    '@typescript-eslint/no-explicit-any': ['off'],
+    '@typescript-eslint/no-unsafe-assignment': ['off'],
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': ['warn'],
+    'prefer-arrow/prefer-arrow-functions': [
+      'warn',
       {
         disallowPrototype: true,
         singleReturnOnly: true,
         classPropertiesAllowed: true,
-        allowStandaloneDeclarations: true,
-      },
+        allowStandaloneDeclarations: true
+      }
     ],
-    "no-unused-vars": [
-      "warn",
+    'no-unused-vars': [
+      'warn',
       {
-        vars: "all",
-        args: "all",
-        argsIgnorePattern: "^_",
-        ignoreRestSiblings: true,
-      },
+        vars: 'all',
+        args: 'all',
+        argsIgnorePattern: '^_',
+        ignoreRestSiblings: true
+      }
     ],
-    "no-console": [
-      "error",
+    'no-console': [
+      'error',
       {
-        allow: ["error"],
-      },
+        allow: ['error']
+      }
     ],
-    eqeqeq: ["error", "always"],
-    "import/order": [
-      "warn",
+    eqeqeq: ['error', 'always'],
+    'import/order': [
+      'warn',
       {
-        "newlines-between": "always",
+        'newlines-between': 'always',
         groups: [
-          "builtin",
-          "external",
-          ["index", "sibling", "parent", "internal"],
+          'builtin',
+          'external',
+          ['index', 'sibling', 'parent', 'internal']
         ],
         pathGroupsExcludedImportTypes: [],
         pathGroups: [
           {
-            pattern: "+(react|phaser)",
-            group: "external",
-            position: "before",
+            pattern: '+(react|phaser)',
+            group: 'external',
+            position: 'before'
           },
           {
-            pattern: "^types(/.*)?$",
-            group: "index",
-            position: "before",
-          },
+            pattern: '^types(/.*)?$',
+            group: 'index',
+            position: 'before'
+          }
         ],
         alphabetize: {
-          order: "asc",
-        },
-      },
-    ],
+          order: 'asc'
+        }
+      }
+    ]
   },
   ignorePatterns: [
-    "scripts/",
-    "*.config.js",
-    "src/assets.ts",
-    "src/utils/AssetLoader.ts",
-    ".eslintrc.js"
+    'scripts/',
+    '*.config.js',
+    'src/assets.ts',
+    'src/utils/AssetLoader.ts',
+    '.eslintrc.js'
   ],
   settings: {
-    "import/resolver": {
+    'import/resolver': {
       typescript: {
         alwaysTryTypes: true,
-        project: "./",
-      },
-    },
-  },
-};
+        project: './'
+      }
+    }
+  }
+}

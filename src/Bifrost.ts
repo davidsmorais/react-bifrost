@@ -12,7 +12,7 @@ class Bifrost {
 
   constructor(config: RealmConfig) {
     this.config = config
-    const { realms, locales } = config
+    const { locales } = config
     this.locales = Object.keys(locales)
     this.bus = document.createElement('bifrost-bridge')
     this.setLocale(this.locales[0])
