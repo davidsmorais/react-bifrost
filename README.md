@@ -7,24 +7,12 @@
 ## Install
 
 ```bash
-npm install --save react-bifrost
+yarn install --save react-bifrost
 ```
 
 ## Usage
-
-```tsx
-import React, { Component } from 'react'
-
-import MyComponent from 'react-bifrost'
-import 'react-bifrost/dist/index.css'
-
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
-}
-```
-
+## Examples
+## Projects
 ## License
 
 MIT © [davidsmorais](https://github.com/davidsmorais)
