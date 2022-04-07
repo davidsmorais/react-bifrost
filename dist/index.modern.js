@@ -1256,9 +1256,9 @@ var useBifrost = function useBifrost(_ref) {
       setRealmsState(_extends({}, realmsState, (_extends2 = {}, _extends2[realm] = _extends({}, realmsState[realm] || {}, {
         open: true
       }), _extends2)));
+    } else {
+      console.error('❗Bifrost Error❗ openRealm failed 👉 currentRealm not set and realmName not passed');
     }
-
-    console.error('❗Bifrost Error❗ openRealm failed 👉 currentRealm not set and realmName not passed');
   };
 
   var closeRealm = function closeRealm(realmName) {

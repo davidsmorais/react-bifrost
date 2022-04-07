@@ -27,11 +27,11 @@ const useBifrost = ({
           open: true
         }
       })
+    } else {
+      console.error(
+        '❗Bifrost Error❗ openRealm failed 👉 currentRealm not set and realmName not passed'
+      )
     }
-
-    console.error(
-      '❗Bifrost Error❗ openRealm failed 👉 currentRealm not set and realmName not passed'
-    )
   }
 
   const closeRealm = (realmName?: string) => {
