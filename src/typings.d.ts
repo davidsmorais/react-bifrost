@@ -1,17 +1,35 @@
-/**
- * Default CSS definition for typescript,
- * will be overridden with file-specific definitions by rollup
- */
-declare module '*.css' {
-  const content: { [className: string]: string };
-  export default content;
+import Bifrost from './Bifrost'
+
+export interface RealmConfig {
+  realms: {
+    [RealmName: string]: React.FC
+  }
+  locales: {
+    [Language: string]: {
+      [RealmName: string]: {
+        [Key: string]: string
+      }
+    }
+  }
+  dimensions: {
+    height: number
+    width: number
+  }
 }
 
-interface SvgrComponent extends React.StatelessComponent<React.SVGAttributes<SVGElement>> {}
-
-declare module '*.svg' {
-  const svgUrl: string;
-  const svgComponent: SvgrComponent;
-  export default svgUrl;
-  export { svgComponent as ReactComponent }
+export interface BifrostProps<T> {
+  props: T
+  state: {
+    [stateKey: string]: any
+  }
+  realmIsOpen: boolean
+  t: (key: string) => string
 }
+
+declare global {
+  interface Window {
+    Bifrost: Bifrost
+  }
+}
+
+export {}
