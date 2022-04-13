@@ -3,6 +3,9 @@ declare const useBifrost: ({ config, currentRealm }: {
     config?: RealmConfig | undefined;
     currentRealm?: string | undefined;
 }) => {
+    BifrostContainer: ({ ...props }: {
+        [x: string]: any;
+    }) => void;
     realmList: string[];
     openRealm: (realmName?: string | undefined) => void;
     closeRealm: (realmName?: string | undefined) => void;

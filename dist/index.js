@@ -1333,7 +1333,21 @@ var useBifrost = function useBifrost(_ref) {
     return window.Bifrost.translate(key, currentRealm);
   };
 
+  var BifrostContainer = function BifrostContainer(_ref5) {
+    var props = _extends({}, _ref5);
+
+    /*#__PURE__*/
+    React.createElement("div", _extends({
+      style: {
+        position: 'absolute',
+        width: '100vw',
+        height: '100vh'
+      }
+    }, props), realms);
+  };
+
   return {
+    BifrostContainer: BifrostContainer,
     realmList: realmList,
     openRealm: openRealm,
     closeRealm: closeRealm,
