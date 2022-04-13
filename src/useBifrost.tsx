@@ -102,7 +102,20 @@ const useBifrost = ({
     return window.Bifrost.translate(key, currentRealm)
   }
 
+  const BifrostContainer = ({ ...props }) => {
+    ;<div
+      style={{
+        position: 'absolute',
+        width: '100vw',
+        height: '100vh'
+      }}
+      {...props}
+    >
+      {realms}
+    </div>
+  }
   return {
+    BifrostContainer,
     realmList,
     openRealm,
     closeRealm,
