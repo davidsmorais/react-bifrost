@@ -5,7 +5,7 @@ declare const useBifrost: ({ config, currentRealm }: {
 }) => {
     BifrostContainer: ({ ...props }: {
         [x: string]: any;
-    }) => void;
+    }) => JSX.Element;
     realmList: string[];
     openRealm: (realmName?: string | undefined) => void;
     closeRealm: (realmName?: string | undefined) => void;
