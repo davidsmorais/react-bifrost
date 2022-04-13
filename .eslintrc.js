@@ -18,23 +18,21 @@ module.exports = {
     project: 'tsconfig.json',
     sourceType: 'module'
   },
-  plugins: ['@typescript-eslint', 'prefer-arrow', 'import'],
+  plugins: ['@typescript-eslint', 'import'],
   rules: {
+    'react/react-in-jsx-scope': 'off',
     'prettier/prettier': ['warn'],
+    '@typescript-eslint/no-explicit-any': ['off'],
+    '@typescript-eslint/no-unsafe-call': ['off'],
+    '@typescript-eslint/no-unsafe-member-access': ['off'],
+    '@typescript-eslint/no-unsafe-assignment': ['off'],
+    '@typescript-eslint/no-unsafe-argument': ['off'],
+    '@typescript-eslint/no-unsafe-return': ['off'],
     '@typescript-eslint/camelcase': ['off'],
     '@typescript-eslint/no-explicit-any': ['off'],
     '@typescript-eslint/no-unsafe-assignment': ['off'],
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['warn'],
-    'prefer-arrow/prefer-arrow-functions': [
-      'warn',
-      {
-        disallowPrototype: true,
-        singleReturnOnly: true,
-        classPropertiesAllowed: true,
-        allowStandaloneDeclarations: true
-      }
-    ],
     'no-unused-vars': [
       'warn',
       {
