@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
+
 import { atom, useAtom } from 'jotai'
+
 import Bifrost from './Bifrost'
 import { RealmConfig } from './typings'
 
@@ -62,7 +64,6 @@ const useBifrost = ({
         })
       }
       if (props) {
-        console.log('Has props', props, name)
         setRealmsProps({
           ...realmsProps,
           [name]: props
@@ -77,7 +78,6 @@ const useBifrost = ({
 
     window.Bifrost.bus.addEventListener('bifrost-update', ({ detail }: any) => {
       const { name, props } = detail
-      console.log('Updating realm', name, props)
       if (props) {
         setRealmsProps({
           ...realmsProps,
@@ -88,6 +88,7 @@ const useBifrost = ({
   }
 
   const currentRealmState = useMemo(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     () => (currentRealm ? realmsState[currentRealm] : realmsState),
     [realmsState]
   )
@@ -102,8 +103,8 @@ const useBifrost = ({
     return window.Bifrost.translate(key, currentRealm)
   }
 
-  const BifrostContainer = ({ ...props }) => {
-    ;<div
+  const BifrostContainer = ({ ...props }) => (
+    <div
       style={{
         position: 'absolute',
         width: '100vw',
@@ -113,7 +114,7 @@ const useBifrost = ({
     >
       {realms}
     </div>
-  }
+  )
   return {
     BifrostContainer,
     realmList,

@@ -23,7 +23,7 @@ class Bifrost {
       this.locale = locale
     } else {
       console.error('❗Bifrost Error❗ Locale not found 👉', locale)
-      console.info('⚠️ Available locales 👉', this.locales)
+      // console.info('⚠️ Available locales 👉', this.locales)
     }
   }
 
