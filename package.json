@@ -1,6 +1,6 @@
 {
   "name": "dm-react-bifrost",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A React library that bridges multiple frameworks/events inside the same app.",
   "author": "davidsmorais",
   "license": "MIT",
@@ -28,8 +28,8 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "react": "^16.0.0",
-    "jotai": "^1.6.2"
+    "jotai": "^1.6.2",
+    "react": "^16.0.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
