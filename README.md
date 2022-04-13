@@ -4,7 +4,7 @@
 
 [![NPM](https://img.shields.io/npm/v/dm-react-bifrost.svg)](https://www.npmjs.com/package/dm-react-bifrost) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-![Logo](docs/BifrostLogo.png)
+![Logo](docs/logo.png)
 
 
 ## Install
