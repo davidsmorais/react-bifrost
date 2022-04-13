@@ -16,6 +16,7 @@ yarn install --save react-bifrost
 ## Introduction
 React Bifrost is a React library that acts as a bridge between two frameworks running inside the same web app. It was specially developed because I wanted to use React to develop the UI for my game, [Epoch Rift]( https.//epochrift.com/).
 
+Bifrost is built using [Jotai](https://jotai.org) for state management with an atomic model
 ## Usage
 
 Initialize Bifrost in your React application by doing this on your entry point:
