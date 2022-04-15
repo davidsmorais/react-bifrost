@@ -10,7 +10,7 @@
 ## Install
 
 ```bash
-yarn install --save react-bifrost
+yarn install --save dm-react-bifrost
 ```
 
 ## Introduction
@@ -44,9 +44,92 @@ useBifrost({
     }
   });
 ```
+
+#### Example Configuration
+```tsx
+const config = {
+  dimensions: {
+    width: GAME_WIDTH,
+    height: GAME_HEIGHT,
+  },
+  locales: {
+    en: {
+      Title: {
+        title: "Knight Game Example",
+        subtitle: "Phaser + React Bifrost",
+        newGame: "New Game",
+      },
+      Hud: {
+        damage: "Damage",
+      },
+      GameOver: {
+        gameOver: "Game Over",
+        restart: "Restart Game",
+      },
+    },
+  },
+  realms: {
+    Title: TitleRealm,
+    Hud: HudRealm,
+    GameOver: GameOverRealm,
+  },
+};
+```
 ### TODO ⚠️
 ## Examples
-### TODO ⚠️
+Refer to [Phaser Bifrost Template](https://github.com/Dark-Magic-Studios/phaser-bifrost-vite-template-ts) for complete usage examples
+
+### Title Screen
+On Phaser side:
+```ts
+// TitleScene.ts
+export default class TitleScene extends Phaser.Scene {
+  public init(): void {
+    window.Bifrost.openRealm("Title", {
+      state: { open: true },
+      props: {
+        onClose: () => {
+          this.startGame();
+          window.Bifrost.closeRealm("Title");
+        },
+      },
+    });
+  }
+  ...
+}
+```
+On React side:
+```tsx
+// TitleRealm.tsx
+import { useBifrost } from "dm-react-bifrost";
+
+const REALM_NAME = "Title";
+interface RealmProps {
+  onClose: () => void;
+}
+
+const TitleRealm = () => {
+  const { props, realmIsOpen, t }: BifrostProps<RealmProps> = useBifrost({
+    currentRealm: REALM_NAME,
+  });
+
+  if (!realmIsOpen) {
+    return null;
+  }
+  return (
+    <div style={{}}>
+      <h1>{t("title")}</h1>
+      <h3>{t("subtitle")}</h3>
+      <button onClick={props?.onClose}>
+        <h2>{t("newGame")}</h2>
+      </button>
+    </div>
+  );
+};
+
+export default TitleRealm;
+
+```
 ## Projects
 
 - [Epoch Rift 🟢](https://epochrift.com)
