@@ -36014,6 +36014,7 @@ var useBifrost = function useBifrost(_ref) {
 
     if (realmOpen && Realm) {
       return /*#__PURE__*/react.createElement(Realm, _extends({
+        open: realmOpen,
         key: realm
       }, realmsProps[realm], {
         t: function t(key) {
