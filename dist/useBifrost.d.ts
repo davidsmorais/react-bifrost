@@ -1,19 +1,14 @@
 import { RealmConfig } from './typings';
 export declare const realmStateAtom: import("recoil").RecoilState<{}>;
-declare const useBifrost: ({ config, currentRealm }: {
+declare const useBifrost: ({ config, init }: {
     config?: RealmConfig | undefined;
-    currentRealm?: string | undefined;
+    init: boolean;
 }) => {
-    _BifrostContainer: () => JSX.Element;
-    realmList: string[];
+    renderRealms: (JSX.Element | undefined)[];
     openRealm: (realmName: string, state: any, props: any) => Promise<void>;
     closeRealm: (realmName?: string | undefined) => Promise<void>;
     updateRealmProps: (realmName: string, props: any) => Promise<void>;
-    state: any;
-    props: any;
-    setRealmsProps: import("recoil").SetterOrUpdater<{}>;
-    setRealmsState: import("recoil").SetterOrUpdater<{}>;
-    realmIsOpen: any;
-    t: (key: string) => string;
+    state: {};
+    props: {};
 };
 export default useBifrost;

@@ -1,4 +1,4 @@
-import react, { useMemo as useMemo$4 } from 'react';
+import react from 'react';
 
 function _extends() {
   _extends = Object.assign || function (target) {
@@ -35910,10 +35910,10 @@ var realmPropsAtom = Recoil_index_7({
 });
 
 var useBifrost = function useBifrost(_ref) {
-  var _config$realms, _currentRealmState$op;
+  var _config$realms;
 
   var config = _ref.config,
-      currentRealm = _ref.currentRealm;
+      init = _ref.init;
   var realms = (_config$realms = config === null || config === void 0 ? void 0 : config.realms) != null ? _config$realms : {};
 
   var _useRecoilState = Recoil_index_21(realmStateAtom),
@@ -35930,7 +35930,7 @@ var useBifrost = function useBifrost(_ref) {
       try {
         return Promise.resolve(snapshot.getPromise(realmStateAtom)).then(function (rs) {
           return Promise.resolve(snapshot.getPromise(realmPropsAtom)).then(function (rp) {
-            var realm = realmName || currentRealm;
+            var realm = realmName;
 
             if (realm) {
               var _extends2, _extends3;
@@ -35953,12 +35953,12 @@ var useBifrost = function useBifrost(_ref) {
         return Promise.reject(e);
       }
     };
-  }, [realmStateAtom, realmPropsAtom, currentRealm]);
+  }, [realmStateAtom, realmPropsAtom]);
   var closeRealm = Recoil_index_30(function (_ref3) {
     var snapshot = _ref3.snapshot;
     return function (realmName) {
       try {
-        var realm = realmName || currentRealm;
+        var realm = realmName;
 
         var _temp2 = function () {
           if (realm) {
@@ -35979,12 +35979,12 @@ var useBifrost = function useBifrost(_ref) {
         return Promise.reject(e);
       }
     };
-  }, [realmStateAtom, realmPropsAtom, currentRealm]);
+  }, [realmStateAtom, realmPropsAtom]);
   var updateRealmProps = Recoil_index_30(function (_ref4) {
     var snapshot = _ref4.snapshot;
     return function (realmName, props) {
       try {
-        var realm = realmName || currentRealm;
+        var realm = realmName;
 
         var _temp4 = function () {
           if (realm) {
@@ -36003,86 +36003,53 @@ var useBifrost = function useBifrost(_ref) {
         return Promise.reject(e);
       }
     };
-  }, [realmStateAtom, realmPropsAtom, currentRealm]);
-  var currentRealmState = useMemo$4(function () {
-    return currentRealm ? realmsState[currentRealm] : realmsState;
-  }, [realmsState]);
-  var currentRealmProps = useMemo$4(function () {
-    return currentRealm ? realmsProps[currentRealm] : realmsProps;
-  }, [realmsProps]);
-  var realmIsOpen = (_currentRealmState$op = currentRealmState === null || currentRealmState === void 0 ? void 0 : currentRealmState.open) != null ? _currentRealmState$op : false;
-  var realmList = Object.keys(realms);
+  }, [realmStateAtom, realmPropsAtom]);
+  var renderRealms = Object.keys(realms).map(function (realm) {
+    var _realmsState$realm;
 
-  var t = function t(key) {
-    return window.Bifrost.translate(key, currentRealm);
-  };
+    var Realm = config === null || config === void 0 ? void 0 : config.realms[realm];
+    var realmOpen = (_realmsState$realm = realmsState[realm]) === null || _realmsState$realm === void 0 ? void 0 : _realmsState$realm.open;
 
-  var _BifrostContainer = function _BifrostContainer() {
-    var _config$realms2;
-
-    var realms = (_config$realms2 = config === null || config === void 0 ? void 0 : config.realms) != null ? _config$realms2 : {};
-    var renderRealms = Object.keys(realms).map(function (realm) {
-      var _realmsState$realm;
-
-      var Realm = config === null || config === void 0 ? void 0 : config.realms[realm];
-
-      if (!Realm) {
-        return null;
-      }
-
+    if (realmOpen && Realm) {
       return /*#__PURE__*/react.createElement(Realm, _extends({
         key: realm
       }, realmsProps[realm], {
         t: function t(key) {
           return window.Bifrost.translate(key, realm);
-        },
-        open: (_realmsState$realm = realmsState[realm]) === null || _realmsState$realm === void 0 ? void 0 : _realmsState$realm.open
+        }
       }));
-    });
-
-    if (!window.Bifrost && config) {
-      window.Bifrost = new Bifrost(config);
-      window.Bifrost.bus.addEventListener('bifrost-open', function (_ref5) {
-        var detail = _ref5.detail;
-        var name = detail.name,
-            state = detail.state,
-            props = detail.props;
-        openRealm(name, state, props);
-      });
-      window.Bifrost.bus.addEventListener('bifrost-close', function (_ref6) {
-        var detail = _ref6.detail;
-        var name = detail.name;
-        closeRealm(name);
-      });
-      window.Bifrost.bus.addEventListener('bifrost-update', function (_ref7) {
-        var detail = _ref7.detail;
-        var name = detail.name,
-            props = detail.props;
-        updateRealmProps(name, props);
-      });
     }
+  });
 
-    return /*#__PURE__*/react.createElement("div", {
-      style: {
-        position: 'absolute',
-        width: '100vw',
-        height: '100vh'
-      }
-    }, renderRealms);
-  };
+  if (!window.Bifrost && config && init) {
+    window.Bifrost = new Bifrost(config);
+    window.Bifrost.bus.addEventListener('bifrost-open', function (_ref5) {
+      var detail = _ref5.detail;
+      var name = detail.name,
+          state = detail.state,
+          props = detail.props;
+      openRealm(name, state, props);
+    });
+    window.Bifrost.bus.addEventListener('bifrost-close', function (_ref6) {
+      var detail = _ref6.detail;
+      var name = detail.name;
+      closeRealm(name);
+    });
+    window.Bifrost.bus.addEventListener('bifrost-update', function (_ref7) {
+      var detail = _ref7.detail;
+      var name = detail.name,
+          props = detail.props;
+      updateRealmProps(name, props);
+    });
+  }
 
   return {
-    _BifrostContainer: _BifrostContainer,
-    realmList: realmList,
+    renderRealms: renderRealms,
     openRealm: openRealm,
     closeRealm: closeRealm,
     updateRealmProps: updateRealmProps,
-    state: currentRealm ? currentRealmState : realmsState,
-    props: currentRealm ? currentRealmProps : realmsProps,
-    setRealmsProps: setRealmsProps,
-    setRealmsState: setRealmsState,
-    realmIsOpen: realmIsOpen,
-    t: t
+    state: realmsState,
+    props: realmsProps
   };
 };
 
@@ -36090,11 +36057,18 @@ var BifrostApp = function BifrostApp(_ref) {
   var config = _ref.config;
 
   var _useBifrost = useBifrost({
-    config: config
+    config: config,
+    init: true
   }),
-      _BifrostContainer = _useBifrost._BifrostContainer;
+      renderRealms = _useBifrost.renderRealms;
 
-  return /*#__PURE__*/react.createElement(_BifrostContainer, null);
+  return /*#__PURE__*/react.createElement("div", {
+    style: {
+      position: "absolute",
+      width: "100vw",
+      height: "100vh"
+    }
+  }, renderRealms);
 };
 
 var RecoilBifrostContainer = function RecoilBifrostContainer(_ref2) {

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import React, { useMemo } from 'react'
+import React from 'react'
 
 import { atom, useRecoilState, useRecoilCallback } from 'recoil'
 
