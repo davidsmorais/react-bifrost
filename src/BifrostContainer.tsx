@@ -5,10 +5,21 @@ import { RecoilRoot } from 'recoil'
 import { RealmConfig } from './typings'
 import useBifrost from './useBifrost'
 
+
 const BifrostApp = ({ config }: { config: RealmConfig }) => {
-  const { _BifrostContainer } = useBifrost({ config })
-  return <_BifrostContainer />
-}
+  const { renderRealms } = useBifrost({ config, init: true });
+  return (
+    <div
+      style={{
+        position: "absolute",
+        width: "100vw",
+        height: "100vh",
+      }}
+    >
+      {renderRealms}
+    </div>
+  );
+};
 
 export const RecoilBifrostContainer = ({ config }: { config: RealmConfig }) => {
   return (

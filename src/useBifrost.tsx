@@ -10,6 +10,7 @@ export const realmStateAtom = atom({
   key: 'realmsState',
   default: {}
 })
+
 const realmPropsAtom = atom({
   key: 'realmsProps',
   default: {}
@@ -17,10 +18,10 @@ const realmPropsAtom = atom({
 
 const useBifrost = ({
   config,
-  currentRealm
+  init
 }: {
   config?: RealmConfig
-  currentRealm?: string
+  init: boolean
 }) => {
   const realms = config?.realms ?? {}
   const [realmsState, setRealmsState] = useRecoilState(realmStateAtom)
@@ -30,7 +31,7 @@ const useBifrost = ({
       async (realmName: string, state: any, props: any) => {
         const rs = await snapshot.getPromise(realmStateAtom)
         const rp = await snapshot.getPromise(realmPropsAtom)
-        const realm = realmName || currentRealm
+        const realm = realmName
         if (realm) {
           const newRs = {
             ...rs,
@@ -55,13 +56,13 @@ const useBifrost = ({
           )
         }
       },
-    [realmStateAtom, realmPropsAtom, currentRealm]
+    [realmStateAtom, realmPropsAtom]
   )
 
   const closeRealm = useRecoilCallback(
     ({ snapshot }) =>
       async (realmName?: string) => {
-        const realm = realmName || currentRealm
+        const realm = realmName
 
         if (realm) {
           const rs = await snapshot.getPromise(realmStateAtom)
@@ -78,13 +79,13 @@ const useBifrost = ({
           )
         }
       },
-    [realmStateAtom, realmPropsAtom, currentRealm]
+    [realmStateAtom, realmPropsAtom]
   )
 
   const updateRealmProps = useRecoilCallback(
     ({ snapshot }) =>
       async (realmName: string, props: any) => {
-        const realm = realmName || currentRealm
+        const realm = realmName
         if (realm) {
           const rp = await snapshot.getPromise(realmPropsAtom)
           setRealmsProps({
@@ -100,93 +101,47 @@ const useBifrost = ({
           )
         }
       },
-    [realmStateAtom, realmPropsAtom, currentRealm]
+    [realmStateAtom, realmPropsAtom]
   )
 
-  const currentRealmState = useMemo(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    () => (currentRealm ? realmsState[currentRealm] : realmsState),
-    [realmsState]
-  )
-  const currentRealmProps = useMemo(
-    () => (currentRealm ? realmsProps[currentRealm] : realmsProps),
-    [realmsProps]
-  )
-  const realmIsOpen = currentRealmState?.open ?? false
-
-  const realmList = Object.keys(realms)
-
-  const t = (key: string) => {
-    return window.Bifrost.translate(key, currentRealm)
-  }
-
-  const _BifrostContainer = () => {
-    const realms = config?.realms ?? {}
-    const renderRealms = Object.keys(realms).map((realm) => {
-      const Realm = config?.realms[realm]
-      if (!Realm) {
-        return null
-      }
-
+  const renderRealms = Object.keys(realms).map((realm) => {
+    const Realm = config?.realms[realm]
+    const realmOpen = realmsState[realm]?.open
+    if (realmOpen && Realm) {
       return (
         <Realm
           key={realm}
           {...realmsProps[realm]}
           t={(key: string) => window.Bifrost.translate(key, realm)}
-          open={realmsState[realm]?.open}
         />
       )
+    }
+  })
+  if (!window.Bifrost && config && init) {
+    window.Bifrost = new Bifrost(config)
+    window.Bifrost.bus.addEventListener('bifrost-open', ({ detail }: any) => {
+      const { name, state, props } = detail
+
+      openRealm(name, state, props)
+    })
+    window.Bifrost.bus.addEventListener('bifrost-close', ({ detail }: any) => {
+      const { name } = detail
+      closeRealm(name)
     })
 
-    if (!window.Bifrost && config) {
-      window.Bifrost = new Bifrost(config)
-      window.Bifrost.bus.addEventListener('bifrost-open', ({ detail }: any) => {
-        const { name, state, props } = detail
-
-        openRealm(name, state, props)
-      })
-      window.Bifrost.bus.addEventListener(
-        'bifrost-close',
-        ({ detail }: any) => {
-          const { name } = detail
-          closeRealm(name)
-        }
-      )
-
-      window.Bifrost.bus.addEventListener(
-        'bifrost-update',
-        ({ detail }: any) => {
-          const { name, props } = detail
-          updateRealmProps(name, props)
-        }
-      )
-    }
-
-    return (
-      <div
-        style={{
-          position: 'absolute',
-          width: '100vw',
-          height: '100vh'
-        }}
-      >
-        {renderRealms}
-      </div>
-    )
+    window.Bifrost.bus.addEventListener('bifrost-update', ({ detail }: any) => {
+      const { name, props } = detail
+      updateRealmProps(name, props)
+    })
   }
 
   return {
-    _BifrostContainer,
-    realmList,
+    renderRealms,
     openRealm,
     closeRealm,
     updateRealmProps,
-    state: currentRealm ? currentRealmState : realmsState,
-    props: currentRealm ? currentRealmProps : realmsProps,
-    setRealmsProps,
-    setRealmsState,
-    realmIsOpen,
-    t
+    state: realmsState,
+    props: realmsProps
   }
 }
 
