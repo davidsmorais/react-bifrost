@@ -22,6 +22,7 @@
     "./src/Bifrost.ts",
     "./src/useBifrost.tsx",
     "./src/index.tsx",
+    "./src/BifrostContainer.tsx",
     "./src/utils.tsx"
   ],
   "exclude": ["node_modules", "dist", "example"]

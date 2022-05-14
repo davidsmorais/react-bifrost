@@ -1,8 +1,3 @@
-import { RecoilRoot } from 'recoil'
-
-import { RealmConfig } from './typings'
-import useBifrost from './useBifrost'
-
 const get = (obj, path, def) =>
   (() =>
     typeof path === 'string'
@@ -15,16 +10,3 @@ const get = (obj, path, def) =>
     : def
 
 export { get }
-
-const BifrostApp = ({ config }: { config: RealmConfig }) => {
-  const { BifrostContainer } = useBifrost({ config })
-  return <BifrostContainer />
-}
-
-export const RecoilBifrostContainer = ({ config }: { config: RealmConfig }) => {
-  return (
-    <RecoilRoot>
-      <BifrostApp config={config} />
-    </RecoilRoot>
-  )
-}

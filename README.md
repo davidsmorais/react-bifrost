@@ -48,7 +48,7 @@ useBifrost({
   });
 ```
 
-Your app needs to be wrapped around a `RecoilRoot`, Bifrost has the `RecoilBifrostContainer` which can be imported from `dm-react-bifrost/utils`  (Experimental)
+Your app needs to be wrapped around a `RecoilRoot`, Bifrost has the `RecoilBifrostContainer` that solves this (Experimental) You can also use the `BifrostContainer` which is returned when you use `useBifrost` with the config.
 
 #### Example Configuration
 ```tsx
