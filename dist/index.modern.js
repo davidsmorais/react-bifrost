@@ -57,6 +57,90 @@ function _construct(Parent, args, Class) {
   return _construct.apply(null, arguments);
 }
 
+var get = function get(obj, path, def) {
+  return function () {
+    return typeof path === 'string' ? path.replace(/\[(\d+)]/g, '.$1') : path.join('.');
+  }().split('.').filter(Boolean).every(function (step) {
+    return (obj = obj[step]) !== undefined;
+  }) ? obj : def;
+};
+
+var Bifrost = /*#__PURE__*/function () {
+  function Bifrost(config) {
+    this.config = config;
+    var locales = config.locales;
+    this.locales = Object.keys(locales);
+    this.bus = document.createElement('bifrost-bridge');
+    this.setLocale(this.locales[0]);
+  }
+
+  var _proto = Bifrost.prototype;
+
+  _proto.setLocale = function setLocale(locale) {
+    if (this.config.locales[locale]) {
+      this.locale = locale;
+    } else {
+      console.error('❗Bifrost Error❗ Locale not found 👉', locale);
+    }
+  };
+
+  _proto.openRealm = function openRealm(name, _ref) {
+    var state = _ref.state,
+        props = _ref.props;
+    this.dispatchEvent('bifrost-open', {
+      detail: {
+        name: name,
+        state: state,
+        props: props
+      }
+    });
+  };
+
+  _proto.updateRealm = function updateRealm(name, _ref2) {
+    var props = _ref2.props;
+    this.dispatchEvent('bifrost-update', {
+      detail: {
+        name: name,
+        props: props
+      }
+    });
+  };
+
+  _proto.closeRealm = function closeRealm(name) {
+    this.dispatchEvent('bifrost-close', {
+      detail: {
+        name: name
+      }
+    });
+  };
+
+  _proto.addEventListener = function addEventListener(event, callback) {
+    this.bus.addEventListener(event, callback);
+  };
+
+  _proto.removeEventListener = function removeEventListener(event, callback) {
+    this.bus.removeEventListener(event, callback);
+  };
+
+  _proto.dispatchEvent = function dispatchEvent(event) {
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    this.bus.dispatchEvent(_construct(CustomEvent, [event].concat(args)));
+  };
+
+  _proto.translate = function translate(key, scene) {
+    if (scene) {
+      return this.config.locales[this.locale][scene][key];
+    } else {
+      return get(this.config.locales[this.locale], key, key);
+    }
+  };
+
+  return Bifrost;
+}();
+
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
@@ -35811,6 +35895,7 @@ var Recoil_index = {
   useRetain: Recoil_useRetain,
   retentionZone: retentionZone$1
 };
+var Recoil_index_4 = Recoil_index.RecoilRoot;
 var Recoil_index_7 = Recoil_index.atom;
 var Recoil_index_21 = Recoil_index.useRecoilState;
 var Recoil_index_30 = Recoil_index.useRecoilCallback;
@@ -35994,89 +36079,23 @@ var useBifrost = function useBifrost(_ref) {
   };
 };
 
-var get = function get(obj, path, def) {
-  return function () {
-    return typeof path === 'string' ? path.replace(/\[(\d+)]/g, '.$1') : path.join('.');
-  }().split('.').filter(Boolean).every(function (step) {
-    return (obj = obj[step]) !== undefined;
-  }) ? obj : def;
+var BifrostApp = function BifrostApp(_ref) {
+  var config = _ref.config;
+
+  var _useBifrost = useBifrost({
+    config: config
+  }),
+      BifrostContainer = _useBifrost.BifrostContainer;
+
+  return /*#__PURE__*/react.createElement(BifrostContainer, null);
 };
 
-var Bifrost = /*#__PURE__*/function () {
-  function Bifrost(config) {
-    this.config = config;
-    var locales = config.locales;
-    this.locales = Object.keys(locales);
-    this.bus = document.createElement('bifrost-bridge');
-    this.setLocale(this.locales[0]);
-  }
+var RecoilBifrostContainer = function RecoilBifrostContainer(_ref2) {
+  var config = _ref2.config;
+  return /*#__PURE__*/react.createElement(Recoil_index_4, null, /*#__PURE__*/react.createElement(BifrostApp, {
+    config: config
+  }));
+};
 
-  var _proto = Bifrost.prototype;
-
-  _proto.setLocale = function setLocale(locale) {
-    if (this.config.locales[locale]) {
-      this.locale = locale;
-    } else {
-      console.error('❗Bifrost Error❗ Locale not found 👉', locale);
-    }
-  };
-
-  _proto.openRealm = function openRealm(name, _ref) {
-    var state = _ref.state,
-        props = _ref.props;
-    this.dispatchEvent('bifrost-open', {
-      detail: {
-        name: name,
-        state: state,
-        props: props
-      }
-    });
-  };
-
-  _proto.updateRealm = function updateRealm(name, _ref2) {
-    var props = _ref2.props;
-    this.dispatchEvent('bifrost-update', {
-      detail: {
-        name: name,
-        props: props
-      }
-    });
-  };
-
-  _proto.closeRealm = function closeRealm(name) {
-    this.dispatchEvent('bifrost-close', {
-      detail: {
-        name: name
-      }
-    });
-  };
-
-  _proto.addEventListener = function addEventListener(event, callback) {
-    this.bus.addEventListener(event, callback);
-  };
-
-  _proto.removeEventListener = function removeEventListener(event, callback) {
-    this.bus.removeEventListener(event, callback);
-  };
-
-  _proto.dispatchEvent = function dispatchEvent(event) {
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    this.bus.dispatchEvent(_construct(CustomEvent, [event].concat(args)));
-  };
-
-  _proto.translate = function translate(key, scene) {
-    if (scene) {
-      return this.config.locales[this.locale][scene][key];
-    } else {
-      return get(this.config.locales[this.locale], key, key);
-    }
-  };
-
-  return Bifrost;
-}();
-
-export { Bifrost, useBifrost };
+export { Bifrost, RecoilBifrostContainer as BifrostContainer, useBifrost };
 //# sourceMappingURL=index.modern.js.map

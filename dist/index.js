@@ -36090,12 +36090,12 @@ var BifrostApp = function BifrostApp(_ref) {
   }),
       BifrostContainer = _useBifrost.BifrostContainer;
 
-  return /*#__PURE__*/React.createElement(BifrostContainer, null);
+  return /*#__PURE__*/react__default.createElement(BifrostContainer, null);
 };
 
 var RecoilBifrostContainer = function RecoilBifrostContainer(_ref2) {
   var config = _ref2.config;
-  return /*#__PURE__*/React.createElement(Recoil_index_4, null, /*#__PURE__*/React.createElement(BifrostApp, {
+  return /*#__PURE__*/react__default.createElement(Recoil_index_4, null, /*#__PURE__*/react__default.createElement(BifrostApp, {
     config: config
   }));
 };

@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { RecoilRoot } from 'recoil'
 
 import { RealmConfig } from './typings'
