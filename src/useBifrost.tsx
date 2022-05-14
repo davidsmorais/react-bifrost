@@ -110,6 +110,7 @@ const useBifrost = ({
     if (realmOpen && Realm) {
       return (
         <Realm
+          open={realmOpen}
           key={realm}
           {...realmsProps[realm]}
           t={(key: string) => window.Bifrost.translate(key, realm)}
