@@ -23,34 +23,10 @@ Bifrost is built using [Recoil](https://recoiljs.org/) for state management with
 
 Initialize Bifrost in your React application by doing this on your entry point.
 
-```tsx
-useBifrost({
-    config: {
-      realms: {
-        [RealmName: string]: React.FC
-      }
-      locales: {
-        [Language: string]: {
-          [RealmName: string]: {
-            [Key: string]: string
-          }
-        }
-      }
-      dimensions: {
-        height: number
-        width: number
-      }
-      controllers: {
-        keyboard: boolean,
-        gamepad: boolean,
-      }
-    }
-  });
-```
-
-Your app needs to be wrapped around a `RecoilRoot`, Bifrost has the `RecoilBifrostContainer` that solves this (Experimental) You can also use the `BifrostContainer` which is returned when you use `useBifrost` with the config.
+To setup Bifrost you simply need to render the Bifrost container in your React application.
 
 ```jsx
+import {BifrostContainer} from 'dm-react-bifrost';
 
 const App = () => {
   return <BifrostContainer config={config} />;
@@ -87,6 +63,8 @@ const config = {
   },
 };
 ```
+
+## On Phaser Side 🎮
 
 ### Open a realm and pass props
 ```tsx
@@ -139,14 +117,11 @@ export default class TitleScene extends Phaser.Scene {
 On React side:
 ```tsx
 // TitleRealm.tsx
-import { useBifrost } from "dm-react-bifrost";
-
-const REALM_NAME = "Title";
 interface RealmProps {
   onClose: () => void;
 }
 
-const TitleRealm = ({open, t, onClose}) => {
+const TitleRealm = ({open, t, onClose}: RealmProps) => {
   if (!open) {
     return null;
   }
