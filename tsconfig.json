@@ -18,6 +18,11 @@
     "typeRoots": ["./src/"],
     "lib": ["es2020", "dom", "esnext"]
   },
-  "include": ["./src/Bifrost.ts", "./src/useBifrost.tsx", "./src/index.tsx"],
+  "include": [
+    "./src/Bifrost.ts",
+    "./src/useBifrost.tsx",
+    "./src/index.tsx",
+    "./src/utils.tsx"
+  ],
   "exclude": ["node_modules", "dist", "example"]
 }

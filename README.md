@@ -16,10 +16,13 @@ yarn install --save dm-react-bifrost
 ## Introduction
 React Bifrost is a React library that acts as a bridge between two frameworks running inside the same web app. It was specially developed because I wanted to use React to develop the UI for my game, [Epoch Rift]( https.//epochrift.com/).
 
-Bifrost is built using [Jotai](https://jotai.org) for state management with an atomic model
+React Bifrost uses the term 'realms' to refer to scenes which usually are composed of multiple React components. Each realm should can be opened or closed depending on what your needs.
+
+Bifrost is built using [Recoil](https://recoiljs.org/) for state management with an atomic model.
 ## Usage
 
-Initialize Bifrost in your React application by doing this on your entry point:
+Initialize Bifrost in your React application by doing this on your entry point.
+
 ```tsx
 useBifrost({
     config: {
@@ -44,6 +47,8 @@ useBifrost({
     }
   });
 ```
+
+Your app needs to be wrapped around a `RecoilRoot`, Bifrost has the `RecoilBifrostContainer` which can be imported from `dm-react-bifrost/utils`  (Experimental)
 
 #### Example Configuration
 ```tsx
@@ -74,6 +79,32 @@ const config = {
     GameOver: GameOverRealm,
   },
 };
+```
+
+### Open a realm and pass props
+```tsx
+    window.Bifrost.openRealm("Title", {
+      props: {
+        onStartGame: () => {
+          this.startGame();
+          window.Bifrost.closeRealm("Title");
+        },
+      },
+    });
+```
+### Close Realm
+```tsx
+    window.Bifrost.closeRealm("Title");
+```
+### Update Realm Props
+
+```tsx
+      window.Bifrost.updateRealm("Hud", {
+        props: {
+          width: (this.player.stats.hp * 100) / this.player.stats.maxHp,
+          pressBtn: loseHpCallback,
+        },
+      });
 ```
 ### TODO ⚠️
 ## Examples
