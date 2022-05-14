@@ -50,6 +50,13 @@ useBifrost({
 
 Your app needs to be wrapped around a `RecoilRoot`, Bifrost has the `RecoilBifrostContainer` that solves this (Experimental) You can also use the `BifrostContainer` which is returned when you use `useBifrost` with the config.
 
+```jsx
+
+const App = () => {
+  return <BifrostContainer config={config} />;
+};
+```
+
 #### Example Configuration
 ```tsx
 const config = {
@@ -139,12 +146,8 @@ interface RealmProps {
   onClose: () => void;
 }
 
-const TitleRealm = () => {
-  const { props, realmIsOpen, t }: BifrostProps<RealmProps> = useBifrost({
-    currentRealm: REALM_NAME,
-  });
-
-  if (!realmIsOpen) {
+const TitleRealm = ({open, t, onClose}) => {
+  if (!open) {
     return null;
   }
   return (
