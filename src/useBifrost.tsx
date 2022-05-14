@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import React, { useMemo } from 'react'
 
 import { atom, useRecoilState, useRecoilCallback } from 'recoil'
@@ -44,8 +45,7 @@ const useBifrost = ({
             ...rp,
             [realm]: {
               ...(rp[realm] || {}),
-              ...props,
-              open: true
+              ...props
             }
           }
           setRealmsProps(newP)
@@ -108,33 +108,48 @@ const useBifrost = ({
     () => (currentRealm ? realmsState[currentRealm] : realmsState),
     [realmsState]
   )
-  const realmIsOpen = currentRealmState?.open ?? false
-  const realmList = Object.keys(realms)
   const currentRealmProps = useMemo(
     () => (currentRealm ? realmsProps[currentRealm] : realmsProps),
     [realmsProps]
   )
+  const realmIsOpen = currentRealmState?.open ?? false
+
+  const realmList = Object.keys(realms)
 
   const t = (key: string) => {
     return window.Bifrost.translate(key, currentRealm)
   }
 
-  const BifrostContainer = () => {
+  const _BifrostContainer = () => {
     const realms = config?.realms ?? {}
-    const renderRealms = Object.keys(realms).map((realm) => realms[realm]({}))
+    const renderRealms = Object.keys(realms).map((realm) => {
+      const Realm = config?.realms[realm]
+      if (!Realm) {
+        return null
+      }
+
+      return (
+        <Realm
+          key={realm}
+          {...realmsProps[realm]}
+          t={(key: string) => window.Bifrost.translate(key, realm)}
+          open={realmsState[realm]?.open}
+        />
+      )
+    })
 
     if (!window.Bifrost && config) {
       window.Bifrost = new Bifrost(config)
       window.Bifrost.bus.addEventListener('bifrost-open', ({ detail }: any) => {
         const { name, state, props } = detail
 
-        openRealm(name, state, props).finally(() => null)
+        openRealm(name, state, props)
       })
       window.Bifrost.bus.addEventListener(
         'bifrost-close',
         ({ detail }: any) => {
           const { name } = detail
-          closeRealm(name).finally(() => null)
+          closeRealm(name)
         }
       )
 
@@ -142,7 +157,7 @@ const useBifrost = ({
         'bifrost-update',
         ({ detail }: any) => {
           const { name, props } = detail
-          updateRealmProps(name, props).finally(() => null)
+          updateRealmProps(name, props)
         }
       )
     }
@@ -161,7 +176,7 @@ const useBifrost = ({
   }
 
   return {
-    BifrostContainer,
+    _BifrostContainer,
     realmList,
     openRealm,
     closeRealm,

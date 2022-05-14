@@ -6,8 +6,8 @@ import { RealmConfig } from './typings'
 import useBifrost from './useBifrost'
 
 const BifrostApp = ({ config }: { config: RealmConfig }) => {
-  const { BifrostContainer } = useBifrost({ config })
-  return <BifrostContainer />
+  const { _BifrostContainer } = useBifrost({ config })
+  return <_BifrostContainer />
 }
 
 export const RecoilBifrostContainer = ({ config }: { config: RealmConfig }) => {

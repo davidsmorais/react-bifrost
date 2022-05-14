@@ -36058,7 +36058,7 @@ var useBifrost = function useBifrost(_ref) {
       });
     }
 
-    return /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/react__default.createElement("div", {
       style: {
         position: 'absolute',
         width: '100vw',
