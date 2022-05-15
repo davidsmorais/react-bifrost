@@ -35963,11 +35963,17 @@ var useBifrost = function useBifrost(_ref) {
         var _temp2 = function () {
           if (realm) {
             return Promise.resolve(snapshot.getPromise(realmStateAtom)).then(function (rs) {
-              var _extends4;
+              return Promise.resolve(snapshot.getPromise(realmPropsAtom)).then(function (rp) {
+                var _extends4, _extends5;
 
-              setRealmsState(_extends({}, rs, (_extends4 = {}, _extends4[realm] = _extends({}, rs[realm] || {}, {
-                open: false
-              }), _extends4)));
+                setRealmsState(_extends({}, rs, (_extends4 = {}, _extends4[realm] = _extends({}, rs[realm] || {}, {
+                  open: false
+                }), _extends4)));
+
+                var newP = _extends({}, rp, (_extends5 = {}, _extends5[realm] = {}, _extends5));
+
+                setRealmsProps(newP);
+              });
             });
           } else {
             console.error('❗Bifrost Error❗ closeRealm failed 👉 currentRealm not set and realmName not passed');
@@ -35989,9 +35995,9 @@ var useBifrost = function useBifrost(_ref) {
         var _temp4 = function () {
           if (realm) {
             return Promise.resolve(snapshot.getPromise(realmPropsAtom)).then(function (rp) {
-              var _extends5;
+              var _extends6;
 
-              setRealmsProps(_extends({}, rp, (_extends5 = {}, _extends5[realm] = _extends({}, rp[realm] || {}, props), _extends5)));
+              setRealmsProps(_extends({}, rp, (_extends6 = {}, _extends6[realm] = _extends({}, rp[realm] || {}, props), _extends6)));
             });
           } else {
             console.error('❗Bifrost Error❗ closeRealm failed 👉 currentRealm not set and realmName not passed');
