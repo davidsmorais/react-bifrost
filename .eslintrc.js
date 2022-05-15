@@ -29,8 +29,6 @@ module.exports = {
     '@typescript-eslint/no-unsafe-argument': ['off'],
     '@typescript-eslint/no-unsafe-return': ['off'],
     '@typescript-eslint/camelcase': ['off'],
-    '@typescript-eslint/no-explicit-any': ['off'],
-    '@typescript-eslint/no-unsafe-assignment': ['off'],
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['warn'],
     'no-unused-vars': [

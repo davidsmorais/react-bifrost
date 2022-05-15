@@ -66,6 +66,7 @@ const useBifrost = ({
 
         if (realm) {
           const rs = await snapshot.getPromise(realmStateAtom)
+          const rp = await snapshot.getPromise(realmPropsAtom)
           setRealmsState({
             ...rs,
             [realm]: {
@@ -73,6 +74,11 @@ const useBifrost = ({
               open: false
             }
           })
+          const newP = {
+            ...rp,
+            [realm]: {}
+          }
+          setRealmsProps(newP)
         } else {
           console.error(
             '❗Bifrost Error❗ closeRealm failed 👉 currentRealm not set and realmName not passed'
