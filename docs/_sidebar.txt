@@ -1,2 +1,5 @@
 introduction.md
 getting-started.md
+configuration.md
+api.md
+examples.md
