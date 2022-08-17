@@ -50,6 +50,7 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^3.1.3",
     "gh-pages": "^2.2.0",
+    "hyperdocs-cli": "^0.0.7",
     "jotai": "^1.6.4",
     "microbundle-crl": "^0.13.11",
     "npm-run-all": "^4.1.5",
