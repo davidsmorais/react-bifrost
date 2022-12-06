@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-import React from 'react'
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import React, { useCallback } from 'react'
 
 import { atom, useRecoilState, useRecoilCallback } from 'recoil'
 
@@ -26,6 +26,10 @@ const useBifrost = ({
   const realms = config?.realms ?? {}
   const [realmsState, setRealmsState] = useRecoilState(realmStateAtom)
   const [realmsProps, setRealmsProps] = useRecoilState(realmPropsAtom)
+  const t = useCallback(
+    (key: string, realm: string) => window.Bifrost.translate(key, realm),
+    []
+  )
   const openRealm = useRecoilCallback(
     ({ snapshot }) =>
       async (realmName: string, state: any, props: any) => {
@@ -113,33 +117,43 @@ const useBifrost = ({
   const renderRealms = Object.keys(realms).map((realm) => {
     const Realm = config?.realms[realm]
     const realmOpen = realmsState[realm]?.open
+    const translation = (key: string) => t(key, realm)
     if (realmOpen && Realm) {
       return (
         <Realm
           open={realmOpen}
           key={realm}
           {...realmsProps[realm]}
-          t={(key: string) => window.Bifrost.translate(key, realm)}
+          t={translation}
         />
       )
     }
   })
   if (!window.Bifrost && config && init) {
     window.Bifrost = new Bifrost(config)
-    window.Bifrost.bus.addEventListener('bifrost-open', ({ detail }: any) => {
-      const { name, state, props } = detail
+    window.Bifrost.bus.addEventListener(
+      'bifrost-open',
+      async ({ detail }: any) => {
+        const { name, state, props } = detail
 
-      openRealm(name, state, props)
-    })
-    window.Bifrost.bus.addEventListener('bifrost-close', ({ detail }: any) => {
-      const { name } = detail
-      closeRealm(name)
-    })
+        await openRealm(name, state, props)
+      }
+    )
+    window.Bifrost.bus.addEventListener(
+      'bifrost-close',
+      async ({ detail }: any) => {
+        const { name } = detail
+        await closeRealm(name)
+      }
+    )
 
-    window.Bifrost.bus.addEventListener('bifrost-update', ({ detail }: any) => {
-      const { name, props } = detail
-      updateRealmProps(name, props)
-    })
+    window.Bifrost.bus.addEventListener(
+      'bifrost-update',
+      async ({ detail }: any) => {
+        const { name, props } = detail
+        await updateRealmProps(name, props)
+      }
+    )
   }
 
   return {
