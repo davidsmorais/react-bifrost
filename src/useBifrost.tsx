@@ -117,16 +117,8 @@ const useBifrost = ({
   const renderRealms = Object.keys(realms).map((realm) => {
     const Realm = config?.realms[realm]
     const realmOpen = realmsState[realm]?.open
-    const translation = (key: string) => t(key, realm)
     if (realmOpen && Realm) {
-      return (
-        <Realm
-          open={realmOpen}
-          key={realm}
-          {...realmsProps[realm]}
-          t={translation}
-        />
-      )
+      return <Realm open={realmOpen} key={realm} {...realmsProps[realm]} />
     }
   })
   if (!window.Bifrost && config && init) {
@@ -162,7 +154,8 @@ const useBifrost = ({
     closeRealm,
     updateRealmProps,
     state: realmsState,
-    props: realmsProps
+    props: realmsProps,
+    t
   }
 }
 
