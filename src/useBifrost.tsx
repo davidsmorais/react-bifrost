@@ -114,11 +114,16 @@ const useBifrost = ({
     [realmStateAtom, realmPropsAtom]
   )
 
+  const getRealmProps = useCallback(
+    (realm: string) => realmsProps[realm],
+    [realmsProps]
+  )
   const renderRealms = Object.keys(realms).map((realm) => {
     const Realm = config?.realms[realm]
     const realmOpen = realmsState[realm]?.open
+    const realmProps = getRealmProps(realm)
     if (realmOpen && Realm) {
-      return <Realm open={realmOpen} key={realm} {...realmsProps[realm]} />
+      return <Realm open={realmOpen} key={realm} {...realmProps} />
     }
   })
   if (!window.Bifrost && config && init) {
