@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import { atom, useRecoilState, useRecoilCallback } from 'recoil'
 
@@ -110,9 +110,14 @@ const useBifrost = ({
     [realmStateAtom, realmPropsAtom]
   )
 
+  const getRealmProps = useCallback(
+    (realm: string) => realmsProps[realm],
+    [realmsProps]
+  )
   const renderRealms = Object.keys(realms).map((realm) => {
     const Realm = config?.realms[realm]
     const realmOpen = realmsState[realm]?.open
+    const realmProps = getRealmProps(realm)
     if (realmOpen && Realm) {
       return (
         <Realm
