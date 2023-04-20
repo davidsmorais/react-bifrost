@@ -68,8 +68,8 @@ const useBifrost = ({
           const rp = await snapshot.getPromise(realmPropsAtom)
           const newRealmState = JSON.parse(JSON.stringify(rs))
           Object.keys(newRealmState).forEach((realm) => {
-            if (rs[realm]?.open) {
-              rs[realm].open = false
+            if (newRealmState[realm]?.open) {
+              newRealmState[realm].open = false
             }
           })
           setRealmsState({
