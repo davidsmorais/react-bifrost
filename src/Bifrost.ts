@@ -46,7 +46,7 @@ class Bifrost {
    */
 
   navigateToRealm(name: string) {
-    this.dispatchEvent('bifrost-close', { detail: { name } })
+    this.dispatchEvent('bifrost-navigate', { detail: { name } })
   }
 
   /**
