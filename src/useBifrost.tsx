@@ -58,36 +58,6 @@ const useBifrost = ({
       },
     [realmStateAtom, realmPropsAtom]
   )
-
-  const closeRealm = useRecoilCallback(
-    ({ snapshot }) =>
-      async (realmName?: string) => {
-        const realm = realmName
-
-        if (realm) {
-          const rs = await snapshot.getPromise(realmStateAtom)
-          const rp = await snapshot.getPromise(realmPropsAtom)
-          setRealmsState({
-            ...rs,
-            [realm]: {
-              ...(rs[realm] || {}),
-              open: false
-            }
-          })
-          const newP = {
-            ...rp,
-            [realm]: {}
-          }
-          setRealmsProps(newP)
-        } else {
-          console.error(
-            '❗Bifrost Error❗ closeRealm failed 👉 currentRealm not set and realmName not passed'
-          )
-        }
-      },
-    [realmStateAtom, realmPropsAtom]
-  )
-
   const navigateToRealm = useRecoilCallback(
     ({ snapshot }) =>
       async (realmName: string, props: any) => {
@@ -112,6 +82,35 @@ const useBifrost = ({
               ...(rp[realm] || {}),
               ...props
             }
+          }
+          setRealmsProps(newP)
+        } else {
+          console.error(
+            '❗Bifrost Error❗ closeRealm failed 👉 currentRealm not set and realmName not passed'
+          )
+        }
+      },
+    [realmStateAtom, realmPropsAtom]
+  )
+
+  const closeRealm = useRecoilCallback(
+    ({ snapshot }) =>
+      async (realmName?: string) => {
+        const realm = realmName
+
+        if (realm) {
+          const rs = await snapshot.getPromise(realmStateAtom)
+          const rp = await snapshot.getPromise(realmPropsAtom)
+          setRealmsState({
+            ...rs,
+            [realm]: {
+              ...(rs[realm] || {}),
+              open: false
+            }
+          })
+          const newP = {
+            ...rp,
+            [realm]: {}
           }
           setRealmsProps(newP)
         } else {

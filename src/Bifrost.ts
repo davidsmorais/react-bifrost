@@ -45,8 +45,8 @@ class Bifrost {
    * Navigates to a realm and closes all others
    */
 
-  navigateToRealm(name: string) {
-    this.dispatchEvent('bifrost-navigate', { detail: { name } })
+  navigateToRealm(name: string, { props }) {
+    this.dispatchEvent('bifrost-navigate', { detail: { name, props } })
   }
 
   /**
