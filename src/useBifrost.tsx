@@ -88,7 +88,7 @@ const useBifrost = ({
     [realmStateAtom, realmPropsAtom]
   )
 
-  const navigateToRealms = useRecoilCallback(
+  const navigateToRealm = useRecoilCallback(
     ({ snapshot }) =>
       async (realmName: string, props: any) => {
         const realm = realmName
@@ -96,7 +96,7 @@ const useBifrost = ({
         if (realm) {
           const rs = await snapshot.getPromise(realmStateAtom)
           const rp = await snapshot.getPromise(realmPropsAtom)
-          Object.keys(rs).forEach(realm => {
+          Object.keys(rs).forEach((realm) => {
             rs[realm].open = false
           })
           setRealmsState({
@@ -174,6 +174,13 @@ const useBifrost = ({
       const { name } = detail
       closeRealm(name)
     })
+    window.Bifrost.bus.addEventListener(
+      'bifrost-navigate',
+      ({ detail }: any) => {
+        const { name, props } = detail
+        navigateToRealm(name, props)
+      }
+    )
 
     window.Bifrost.bus.addEventListener('bifrost-update', ({ detail }: any) => {
       const { name, props } = detail
@@ -186,7 +193,7 @@ const useBifrost = ({
     openRealm,
     closeRealm,
     updateRealmProps,
-    navigateToRealms,
+    navigateToRealm,
     state: realmsState,
     props: realmsProps
   }
