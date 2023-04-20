@@ -40,6 +40,16 @@ class Bifrost {
   }
 
   /**
+   *
+   * @param name Realm name
+   * Navigates to a realm and closes all others
+   */
+
+  navigateToRealm(name: string) {
+    this.dispatchEvent('bifrost-close', { detail: { name } })
+  }
+
+  /**
    * Add an event listener.
    */
   addEventListener(event, callback) {
