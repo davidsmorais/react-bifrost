@@ -73,9 +73,9 @@ const useBifrost = ({
             }
           })
           setRealmsState({
-            ...rs,
+            ...newRealmState,
             [realm]: {
-              ...(rs[realm] || {}),
+              ...(newRealmState[realm] || {}),
               open: true
             }
           })
